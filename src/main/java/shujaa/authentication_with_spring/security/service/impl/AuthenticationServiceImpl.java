@@ -225,20 +225,27 @@ public class AuthenticationServiceImpl implements IAuthentication {
     }
 
     private String getOAuthProviderName(OAuth2User oAuth2User, String provider) {
+        String fullName;
         if ("google".equals(provider)) {
-            return oAuth2User.getAttribute("name");
+            fullName = oAuth2User.getAttribute("name");
         } else if ("github".equals(provider)) {
-            return oAuth2User.getAttribute("login");
+            fullName = oAuth2User.getAttribute("login");
         } else {
             throw new IllegalArgumentException("Unsupported provider: " + provider);
         }
+
+        if (fullName != null && fullName.contains(" ")) {
+            return fullName.split(" ")[0];
+        }
+        return fullName;
     }
+
 
     private User createOAuthUser(String name, String email) {
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setUsername(name);
-        newUser.setPassword(passwordEncoder.encode("defaultPassword"));
+        newUser.setPassword(null);
         newUser.setEnabled(true);
 
         Role role = iRoleRepository.findByName("ROLE_USER")

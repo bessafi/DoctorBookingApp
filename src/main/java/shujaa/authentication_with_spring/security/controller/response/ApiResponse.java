@@ -1,20 +1,17 @@
 package shujaa.authentication_with_spring.security.controller.response;
 
 public class ApiResponse {
-    private String mensaje;
+    private String message;
 
-    public ApiResponse() {
+    public ApiResponse(String message) {
+        this.message = message;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    public ApiResponse(String mensaje) {
-        this.mensaje = mensaje;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
