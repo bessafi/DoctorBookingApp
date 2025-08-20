@@ -20,10 +20,10 @@ public class JwtService {
 
     private final TokenBlacklistService tokenBlacklistService;
 
-    @Value("${security.jwt.secret-key}")
+    @Value("${spring.security.jwt.secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.expiration-time}")
+    @Value("${spring.security.jwt.expiration-time}")
     private Long jwtExpiration;
 
     public JwtService(TokenBlacklistService tokenBlacklistService) {

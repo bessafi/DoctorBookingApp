@@ -34,21 +34,38 @@ public class OAuth2ClientConfig {
         );
     }
 
-    private ClientRegistration googleClientRegistration() {
+   /*  private ClientRegistration googleClientRegistration() {
         return ClientRegistration.withRegistrationId("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
-                .scope("openid", "profile", "email")
+                //.scope("openid", "profile", "email")
+                .scope("openid", "profile", "email", "https://www.googleapis.com/auth/calendar")
                 .authorizationUri("https://accounts.google.com/o/oauth2/auth")
                 .tokenUri("https://oauth2.googleapis.com/token")
                 .clientName("Google")
-                .redirectUri(redirectUriBase + "/login/oauth2/code/google")
+                //.redirectUri(redirectUriBase + "/login/oauth2/code/google")
                 .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
                 .build();
-    }
+    }*/
+
+    private ClientRegistration googleClientRegistration() {
+    return ClientRegistration.withRegistrationId("google")
+            .clientId(googleClientId)
+            .clientSecret(googleClientSecret)
+            .scope("openid", "profile", "email", "https://www.googleapis.com/auth/calendar")
+            .authorizationUri("https://accounts.google.com/o/oauth2/auth")
+            .tokenUri("https://oauth2.googleapis.com/token")
+            .clientName("Google")
+            .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+            .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+            .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+            .userNameAttributeName("sub")
+            .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")  // ✅ FIXED
+            .build();
+}
 
     private ClientRegistration githubClientRegistration() {
         return ClientRegistration.withRegistrationId("github")

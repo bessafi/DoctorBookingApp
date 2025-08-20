@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Doctor Portal</title>
+    <link rel="stylesheet" href="/webjars/primeicons/6.0.1/primeicons.css"/>
+</h:head>
+<h:body>
+    <div style="max-width:600px;margin:3rem auto;font-family:sans-serif;">
+        <h1>Welcome to Doctor Portal</h1>
+        <p>Sign in with your Google account to access your dashboard.</p>
+
+        <p:commandButton value="Continue with Google"
+                         icon="pi pi-google"
+                         onclick="window.location.href='/oauth2/authorization/google'; return false;" />
+
+        <h:panelGroup rendered="#{not empty request.userPrincipal}">
+            <p style="margin-top:1.5rem;">
+                You are signed in as <strong>#{request.userPrincipal.name}</strong>.
+            </p>
+            <p:commandButton value="Go to Dashboard" icon="pi pi-home"
+                             onclick="window.location.href='/dashboard.xhtml'; return false;" />
+        </h:panelGroup>
+    </div>
+</h:body>
+</html>

@@ -3,20 +3,6 @@ spring:
     jwt:
       secret-key: ${JWT_SECRET}
       expiration-time: ${JWT_TIME}
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
-            scope: 
-              - openid
-              - profile
-              - email
-        provider:
-          google:
-            issuer-uri: https://accounts.google.com
-
   jackson:
     time-zone: America/Lima
   datasource:
@@ -80,19 +66,4 @@ logging:
     org.springframework.web: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.oauth2.client: DEBUG
-
-# Let JSF render detailed errors on dev (remove in prod)
-jakarta:
-  faces:
-    PROJECT_STAGE:Development
-
-# PrimeFaces tweaks if you like:
-# primefaces.THEME=saga
-# primefaces.FONT_AWESOME=true
-joinfaces:
-  faces-servlet:
-    url-mappings:
-      - "*.xhtml"
-      - "/"
-
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="/webjars/primeicons/6.0.1/primeicons.css"/>
+    <h:outputStylesheet>
+        .container { max-width: 1100px; margin: 2rem auto; font-family: sans-serif; }
+        .toolbar { display:flex; gap: .5rem; align-items:center; }
+        .card { padding: 1rem; border: 1px solid #ddd; border-radius: 12px; margin-bottom: 1rem; }
+        table { width:100%; border-collapse: collapse; }
+        th, td { padding: .5rem; border-bottom: 1px solid #eee; text-align:left; }
+    </h:outputStylesheet>
+</h:head>
+<h:body>
+<div class="container">
+    <h1 style="margin-bottom:.5rem;">Doctor Dashboard</h1>
+    <div class="toolbar">
+        <p:commandButton value="Profile" icon="pi pi-user" onclick="loadProfile(); return false;"/>
+        <p:commandButton value="My Availability" icon="pi pi-calendar" onclick="loadAvailability(); return false;"/>
+        <p:commandButton value="Appointments" icon="pi pi-clock" onclick="loadBookings(); return false;"/>
+        <p:commandButton value="Log out" icon="pi pi-sign-out" onclick="window.location.href='/logout'; return false;"/>
+    </div>
+
+    <div id="content" class="card">
+        <em>Select an action above…</em>
+    </div>
+</div>
+
+<h:outputScript target="body">
+/**
+ * This assumes your backend exposes:
+ *  - GET  /api/doctor/me
+ *  - GET  /api/availability?from=YYYY-MM-DD&to=YYYY-MM-DD
+ *  - GET  /api/bookings?from=YYYY-MM-DD&to=YYYY-MM-DD
+ * Security: cookies/session or bearer token depending on your setup.
+ * If you use JWT in Authorization header, add it below.
+ */
+const content = document.getElementById('content');
+
+// If you're securing with JWT in localStorage/cookie, set it here:
+const bearer = localStorage.getItem('JWT'); // or null if using OAuth2 login sessions
+
+function authHeaders() {
+  const h = { 'Accept': 'application/json' };
+  if (bearer) h['Authorization'] = 'Bearer ' + bearer;
+  return h;
+}
+
+function renderTable(title, rows, columns) {
+  const thead = '<tr>' + columns.map(c => `<th>${c.header}</th>`).join('') + '</tr>';
+  const tbody = rows.map(r =>
+      '<tr>' + columns.map(c => `<td>${(c.render? c.render(r) : r[c.field]) ?? ''}</td>`).join('') + '</tr>'
+  ).join('');
+  content.innerHTML = `<h2>${title}</h2><table>${thead}${tbody}</table>`;
+}
+
+async function loadProfile() {
+  content.innerHTML = 'Loading profile…';
+  const res = await fetch('/api/doctor/me', { headers: authHeaders() });
+  const me = await res.json();
+  content.innerHTML = `
+    <h2>Profile</h2>
+    <div><strong>Name:</strong> ${me.firstName ?? ''} ${me.lastName ?? ''}</div>
+    <div><strong>Email:</strong> ${me.email ?? ''}</div>
+    <div><strong>Specialty:</strong> ${me.specialty ?? ''}</div>
+    <div><strong>Timezone:</strong> ${me.timezone ?? ''}</div>
+  `;
+}
+
+async function loadAvailability() {
+  content.innerHTML = 'Loading availability…';
+  const today = new Date().toISOString().slice(0,10);
+  const next7 = new Date(Date.now()+6*86400000).toISOString().slice(0,10);
+  const res = await fetch(`/api/availability?from=${today}&to=${next7}`, { headers: authHeaders() });
+  const slots = await res.json();
+  renderTable('Availability (next 7 days)', slots, [
+    { header: 'Start', field: 'start' },
+    { header: 'End', field: 'end' },
+    { header: 'Status', field: 'status' }
+  ]);
+}
+
+async function loadBookings() {
+  content.innerHTML = 'Loading bookings…';
+  const today = new Date().toISOString().slice(0,10);
+  const next30 = new Date(Date.now()+29*86400000).toISOString().slice(0,10);
+  const res = await fetch(`/api/bookings?from=${today}&to=${next30}`, { headers: authHeaders() });
+  const rows = await res.json();
+  renderTable('Appointments (next 30 days)', rows, [
+    { header: 'When', field: 'start' },
+    { header: 'Patient', field: 'patientName' },
+    { header: 'Email', field: 'patientEmail' },
+    { header: 'Status', field: 'status' }
+  ]);
+}
+</h:outputScript>
+</h:body>
+</html>
