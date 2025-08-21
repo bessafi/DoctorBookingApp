@@ -35,30 +35,7 @@ public class SecurityConfiguration {
         this.authenticationProvider = authenticationProvider;
     }
 
-    /*
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/auth/oauth-login").permitAll()
-                        .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .oauth2Login(oauth2 -> oauth2
-                        .authorizationEndpoint(authorization -> authorization
-                                .baseUri("/api/v1/auth/oauth2/authorization")
-                        )
-                        .defaultSuccessUrl("/api/v1/auth/oauth-login", true)
-                        .failureUrl("/api/v1/auth/oauth-login?error=true")
-                )
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
-    }*/
+   
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
