@@ -6,9 +6,12 @@ spring:
   jackson:
     time-zone: America/Lima
   datasource:
-    url: ${DB_BASEDEDATOS}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    ##url: ${DB_BASEDEDATOS}
+    ##username: ${DB_USERNAME}
+    ##password: ${DB_PASSWORD}
+    url: jdbc:mysql://root:srBcnXavDtIBVcAlNBmRflESLzjxpUny@shortline.proxy.rlwy.net:29035/railway
+    username: root
+    password: srBcnXavDtIBVcAlNBmRflESLzjxpUny
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
