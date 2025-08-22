@@ -32,17 +32,16 @@ spring:
   jackson:
     time-zone: America/Lima
   datasource:
-    #url: ${DB_BASEDEDATOS}
-    #username: ${DB_USERNAME}
-    #password: ${DB_PASSWORD}
-    #url: jdbc:mysql://root:srBcnXavDtIBVcAlNBmRflESLzjxpUny@shortline.proxy.rlwy.net:29035/railway
-    #username: root
-    #password: srBcnXavDtIBVcAlNBmRflESLzjxpUny
     # Use Railway's provided environment variables for robustness
     url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # --- ADD THESE HIKARI SETTINGS ---
+    hikari:
+      connection-timeout: 30000 # Wait 30 seconds for a connection
+      initialization-fail-timeout: 60000 # Wait 60 seconds for the pool to initialize
+      maximum-pool-size: 5
   jpa:
     hibernate:
       ddl-auto: update
