@@ -33,7 +33,8 @@ spring:
     time-zone: America/Lima
   datasource:
     # Use Railway's provided environment variables for robustness
-    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+    ## url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
+    url: jdbc:mysql://root:srBcnXavDtIBVcAlNBmRflESLzjxpUny@centerbeam.proxy.rlwy.net:32105/railway
     username: ${MYSQLUSER}
     password: ${MYSQLPASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
