@@ -34,7 +34,7 @@ spring:
   datasource:
     # Use Railway's provided environment variables for robustness
     ##url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}
-    url: jdbc:mysql://mysql.railway.internal:3306/railway
+    url: jdbc:mysql://mysql.railway.internal:3306/railway?allowPublicKeyRetrieval=true
 
     ##url: jdbc:mysql://root:oUcMfAJsEQfXVkHVjbzKzTFJGOlWiWjC@centerbeam.proxy.rlwy.net:32105/railway
     ##username: ${MYSQLUSER} ${{mysql.MYSQLUSER}}
