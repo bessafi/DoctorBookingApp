@@ -33,7 +33,7 @@ spring:
     time-zone: America/Lima
   datasource:
     # Use Railway's provided environment variables for robustness
-    url: jdbc:mysql://mysql.railway.internal:3306/railway?allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql.railway.internal:3306/railway?allowPublicKeyRetrieval=true&useSSL=true
     username: root
     password: oUcMfAJsEQfXVkHVjbzKzTFJGOlWiWjC
     driver-class-name: com.mysql.cj.jdbc.Driver
